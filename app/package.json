@@ -15,13 +15,13 @@
     "build:mobile": "webpack --mode production --config webpack.mobile.js",
     "build:desktop": "webpack --mode production --config webpack.desktop.js",
     "build:export": "webpack --mode production --config webpack.export.js",
-    "start": "NODE_ENV=development electron ./electron/main.js",
-    "dist-appx": "ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --config electron-appx-builder.yml",
-    "dist": "ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --config electron-builder.yml",
-    "dist-win32": "ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --ia32 --windows --config electron-builder-win32.yml",
-    "dist-darwin": "ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --mac --config electron-builder-darwin.yml",
-    "dist-darwin-arm64": "ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --arm64 --mac --config electron-builder-darwin-arm64.yml",
-    "dist-linux": "ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --linux --config electron-builder-linux.yml"
+    "start": "cross-env NODE_ENV=development electron ./electron/main.js",
+    "dist-appx": "cross-env ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --config electron-appx-builder.yml",
+    "dist": "cross-env ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --config electron-builder.yml",
+    "dist-win32": "cross-env ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --ia32 --windows --config electron-builder-win32.yml",
+    "dist-darwin": "cross-env ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --mac --config electron-builder-darwin.yml",
+    "dist-darwin-arm64": "cross-env ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --arm64 --mac --config electron-builder-darwin-arm64.yml",
+    "dist-linux": "cross-env ELECTRON_MIRROR=https://cnpmjs.org/mirrors/electron/ electron-builder --linux --config electron-builder-linux.yml"
   },
   "keywords": [
     "markdown",
@@ -57,6 +57,7 @@
     "babel-loader": "^8.2.5",
     "blueimp-md5": "^2.19.0",
     "clean-webpack-plugin": "^4.0.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
     "dayjs": "^1.11.5",
     "electron": "21.0.1",
