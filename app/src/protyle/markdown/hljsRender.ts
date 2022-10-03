@@ -2,6 +2,7 @@ import {addScript} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 import {Constants} from "../../constants";
 import {focusByOffset} from "../util/selection";
+import {getContenteditableElement} from "../wysiwyg/getBlock";
 
 export const highlightRender = (element: Element, cdn = Constants.PROTYLE_CDN) => {
     let codeElements: NodeListOf<Element>;
@@ -174,4 +175,48 @@ export const lineNumberRender = (block: HTMLElement) => {
     } else {
         block.insertAdjacentHTML("afterend", `<span contenteditable="false" class="protyle-linenumber__rows">${lineNumberHTML}</span>`);
     }
+};
+
+export const handleCodeLanguageChange = (nodeElement: HTMLElement) => {
+    const editElement = getContenteditableElement(nodeElement);
+    const lineNumber = nodeElement.getAttribute("linenumber");
+    if (
+        lineNumber === "true" ||
+        (lineNumber !== "false" &&
+            window.siyuan.config.editor.codeSyntaxHighlightLineNum)
+    ) {
+        editElement.classList.add("protyle-linenumber");
+    } else {
+        editElement.classList.remove("protyle-linenumber");
+    }
+    (editElement as HTMLElement).textContent = editElement.textContent;
+    editElement.removeAttribute("data-render");
+    highlightRender(nodeElement);
+};
+
+export const handleCodeSetFold = (nodeElement: Element) => {
+    // https://github.com/siyuan-note/siyuan/issues/4411
+    nodeElement.querySelectorAll(".protyle-linenumber").forEach((item: HTMLElement) => {
+        lineNumberRender(item);
+    });
+};
+
+export const handleCodeSetPadding = (protyle: IProtyle) => {
+    setTimeout(() => { // https://github.com/siyuan-note/siyuan/issues/5612
+        protyle.wysiwyg.element.querySelectorAll('.code-block [contenteditable="true"]').forEach((block: HTMLElement) => {
+            lineNumberRender(block);
+        });
+    }, 300);
+};
+
+export const ignoreEventInCodeBlock = (
+    event:
+        | KeyboardEvent
+        | ClipboardEvent
+        | MouseEvent
+        | InputEvent
+        | PointerEvent
+        | CompositionEvent,
+) => {
+    return false;
 };

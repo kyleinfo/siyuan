@@ -18,7 +18,7 @@ import {updateTransaction} from "../wysiwyg/transaction";
 import {Constants} from "../../constants";
 import {getEventName} from "../util/compatibility";
 import {upDownHint} from "../../util/upDownHint";
-import {highlightRender} from "../markdown/highlightRender";
+import {handleCodeLanguageChange} from "../markdown/highlightRender";
 import {getContenteditableElement, hasNextSibling, hasPreviousSibling} from "../wysiwyg/getBlock";
 import {processRender} from "../util/processCode";
 import {BlockRef} from "./BlockRef";
@@ -1095,16 +1095,7 @@ export class Toolbar {
             if (event.key === "Enter") {
                 languageElement.textContent = this.subElement.querySelector(".b3-list-item--focus").textContent;
                 localStorage.setItem(Constants.LOCAL_CODELANG, languageElement.textContent);
-                const editElement = getContenteditableElement(nodeElement);
-                const lineNumber = nodeElement.getAttribute("linenumber");
-                if (lineNumber === "true" || (lineNumber !== "false" && window.siyuan.config.editor.codeSyntaxHighlightLineNum)) {
-                    editElement.classList.add("protyle-linenumber");
-                } else {
-                    editElement.classList.remove("protyle-linenumber");
-                }
-                (editElement as HTMLElement).textContent = editElement.textContent;
-                editElement.removeAttribute("data-render");
-                highlightRender(nodeElement);
+                handleCodeLanguageChange(nodeElement);
                 nodeElement.setAttribute("updated", dayjs().format("YYYYMMDDHHmmss"));
                 updateTransaction(protyle, id, nodeElement.outerHTML, oldHtml);
                 oldHtml = nodeElement.outerHTML;
@@ -1161,16 +1152,7 @@ export class Toolbar {
             localStorage.setItem(Constants.LOCAL_CODELANG, languageElement.textContent);
             const nodeElement = hasClosestBlock(languageElement);
             if (nodeElement) {
-                const editElement = getContenteditableElement(nodeElement);
-                const lineNumber = nodeElement.getAttribute("linenumber");
-                if (lineNumber === "true" || (lineNumber !== "false" && window.siyuan.config.editor.codeSyntaxHighlightLineNum)) {
-                    editElement.classList.add("protyle-linenumber");
-                } else {
-                    editElement.classList.remove("protyle-linenumber");
-                }
-                (editElement as HTMLElement).textContent = editElement.textContent;
-                editElement.removeAttribute("data-render");
-                highlightRender(nodeElement);
+                handleCodeLanguageChange(nodeElement);
                 nodeElement.setAttribute("updated", dayjs().format("YYYYMMDDHHmmss"));
                 updateTransaction(protyle, id, nodeElement.outerHTML, oldHtml);
                 oldHtml = nodeElement.outerHTML;

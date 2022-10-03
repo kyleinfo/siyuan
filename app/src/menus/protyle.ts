@@ -29,7 +29,7 @@ import {openFileById, updateBacklinkGraph} from "../editor/util";
 /// #endif
 import {isMobile} from "../util/functions";
 import {removeFoldHeading} from "../protyle/util/heading";
-import {lineNumberRender} from "../protyle/markdown/highlightRender";
+import {handleCodeSetFold} from "../protyle/markdown/highlightRender";
 import * as dayjs from "dayjs";
 import {blockRender} from "../protyle/markdown/blockRender";
 import {renameAsset} from "../editor/rename";
@@ -1263,10 +1263,7 @@ export const setFold = (protyle: IProtyle, nodeElement: Element, isOpen?: boolea
             return -1;
         }
         nodeElement.removeAttribute("fold");
-        // https://github.com/siyuan-note/siyuan/issues/4411
-        nodeElement.querySelectorAll(".protyle-linenumber").forEach((item: HTMLElement) => {
-            lineNumberRender(item);
-        });
+        handleCodeSetFold(nodeElement);
     } else {
         if (typeof isOpen === "boolean" && isOpen) {
             return -1;

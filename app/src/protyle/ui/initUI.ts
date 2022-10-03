@@ -1,5 +1,5 @@
 import {setEditMode} from "../util/setEditMode";
-import {lineNumberRender} from "../markdown/highlightRender";
+import {handleCodeSetPadding} from "../markdown/highlightRender";
 import {scrollEvent} from "../scroll/event";
 import {isMobile} from "../../util/functions";
 import {Constants} from "../../constants";
@@ -112,11 +112,7 @@ export const setPadding = (protyle: IProtyle) => {
         }
     }
     if (window.siyuan.config.editor.codeSyntaxHighlightLineNum) {
-        setTimeout(() => { // https://github.com/siyuan-note/siyuan/issues/5612
-            protyle.wysiwyg.element.querySelectorAll('.code-block [contenteditable="true"]').forEach((block: HTMLElement) => {
-                lineNumberRender(block);
-            });
-        }, 300);
+        handleCodeSetPadding(protyle);
     }
     if (window.siyuan.config.editor.displayBookmarkIcon) {
         const editorAttrElement = document.getElementById("editorAttr");

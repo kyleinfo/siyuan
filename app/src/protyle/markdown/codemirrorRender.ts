@@ -16,3 +16,27 @@ export const setCodeTheme = (cdn = Constants.PROTYLE_CDN) => {
 export const lineNumberRender = (block: HTMLElement) => {
     return;
 };
+
+export const handleCodeLanguageChange = (nodeElement: HTMLElement) => {
+    return;
+};
+
+export const handleCodeSetFold = (nodeElement: Element) => {
+    // do nothing
+};
+
+export const handleCodeSetPadding = (protyle: IProtyle) => {
+    // do nothing
+};
+
+export const ignoreEventInCodeBlock = (
+    event:
+        | KeyboardEvent
+        | ClipboardEvent
+        | MouseEvent
+        | InputEvent
+        | PointerEvent
+        | CompositionEvent,
+) => {
+    return false;
+};
